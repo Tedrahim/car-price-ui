@@ -8,64 +8,191 @@
 </head>
 <body class="bg-gray-100 font-sans">
   <div class="min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="bg-white shadow-lg rounded-xl p-6 w-full max-w-lg">
+    <div class="bg-white shadow-lg rounded-xl p-6 w-full max-w-xl">
       <h1 class="text-2xl font-bold mb-6 text-center">پیش‌بینی قیمت خودرو</h1>
       
       <form id="carForm" class="space-y-4">
+        <!-- نام خودرو -->
         <div>
           <label class="block mb-1">نام خودرو</label>
-          <input type="text" name="car_name" class="w-full border rounded px-3 py-2" placeholder="مثلاً کوییک" required>
+          <select name="car_name" class="w-full border rounded px-3 py-2" required>
+            <option value="">انتخاب کنید</option>
+            <option>اطلس</option>
+            <option>تارا</option>
+            <option>دنا</option>
+            <option>رانا</option>
+            <option>ساینا</option>
+            <option>سمند</option>
+            <option>شاهین</option>
+            <option>پراید</option>
+            <option>پژو</option>
+            <option>کوییک</option>
+          </select>
         </div>
 
+        <!-- مدل -->
         <div>
-          <label class="block mb-1">سال ساخت</label>
-          <input type="number" name="year" class="w-full border rounded px-3 py-2" placeholder="مثلاً 1401" required>
+          <label class="block mb-1">مدل</label>
+          <select name="model" class="w-full border rounded px-3 py-2" required>
+            <option value="">انتخاب کنید</option>
+            <!-- اینجا لیست تمام مدل‌هایی که دادی -->
+            <option>E</option>
+            <option>EL</option>
+            <option>EL (بنزینی)</option>
+            <option>EL (دوگانه سوز)</option>
+            <option>G</option>
+            <option>GL</option>
+            <option>GX</option>
+            <option>LX</option>
+            <option>LX (ساده)</option>
+            <option>LX EF۷ (بنزینی)</option>
+            <option>LX EF۷ (دوگانه سوز)</option>
+            <option>R</option>
+            <option>R پلاس</option>
+            <option>S</option>
+            <option>SE</option>
+            <option>X۷ (بنزینی)</option>
+            <option>X۷ (دوگانه سوز)</option>
+            <option>v۱ پلاس</option>
+            <option>اتوماتیک</option>
+            <option>اتوماتیک R پلاس</option>
+            <option>اتوماتیک S</option>
+            <option>اتوماتیک فول پلاس</option>
+            <option>دنا پلاس</option>
+            <option>دنا پلاس توربو</option>
+            <option>دنا پلاس تیپ ۱ توربو</option>
+            <option>دنا پلاس تیپ ۱ دنده‌ای</option>
+            <option>دنا پلاس تیپ ۲ توربو</option>
+            <option>دنا پلاس تیپ ۲ دنده‌ای</option>
+            <option>دنا پلاس ۵ دنده توربو</option>
+            <option>دنا پلاس ۶ دنده توربو</option>
+            <option>دنده ای</option>
+            <option>ساده</option>
+            <option>ساینا اتوماتیک EX</option>
+            <option>ساینا اتوماتیک S</option>
+            <option>ساینا دنده ای EX</option>
+            <option>ساینا دنده ای G</option>
+            <option>ساینا دنده ای S</option>
+            <option>ساینا دنده ای SX</option>
+            <option>سریر</option>
+            <option>سفری</option>
+            <option>سورن (ELX توربو)</option>
+            <option>سورن (ELX)</option>
+            <option>سورن (ساده)</option>
+            <option>سورن (پلاس)</option>
+            <option>صبا (صندوقدار) (دوگانه سوز)</option>
+            <option>صبا (صندوقدار) بنزینی</option>
+            <option>معمولی</option>
+            <option>معمولی تیپ ۱</option>
+            <option>معمولی تیپ ۲</option>
+            <option>نسیم (هاچ بک)</option>
+            <option>وانت (۱۵۱) (بنزینی)</option>
+            <option>وانت (۱۵۱) (پلاس)</option>
+            <option>وانت ۱۵۱ (دوگانه سوز)</option>
+            <option>وی ۴ ال ایکس</option>
+            <option>پلاس</option>
+            <option>پلاس پانوراما</option>
+            <option>۱۱۱</option>
+            <option>۱۱۱ se</option>
+            <option>۱۱۱ sl</option>
+            <option>۱۱۱ sx</option>
+            <option>۱۳۱ (بنزینی)</option>
+            <option>۱۳۱ (دوگانه سوز)</option>
+            <option>۱۳۱ se</option>
+            <option>۱۳۱ sl</option>
+            <option>۱۳۱ sx</option>
+            <option>۱۳۱ tl</option>
+            <option>۱۳۲ (بنزینی)</option>
+            <option>۱۳۲ (دوگانه سوز)</option>
+            <option>۱۳۲ se</option>
+            <option>۱۴۱ (بنزینی)</option>
+            <option>۱۴۱ (دوگانه سوز)</option>
+            <option>۱۴۱ i</option>
+            <option>۱۴۱ le</option>
+            <option>۱۴۱ sx</option>
+            <option>۲۰۶ (تیپ۱)</option>
+            <option>۲۰۶ (تیپ۲)</option>
+            <option>۲۰۶ (تیپ۳)</option>
+            <option>۲۰۶ (تیپ۳) پانوراما</option>
+            <option>۲۰۶ (تیپ۴)</option>
+            <option>۲۰۶ (تیپ۵)</option>
+            <option>۲۰۶ (تیپ۶)</option>
+            <option>۲۰۷i (MC)</option>
+            <option>۲۰۷i (اتوماتیک)</option>
+            <option>۲۰۷i (دنده ای)</option>
+            <option>۲۰۷i (پانوراما اتوماتیک TU۵)</option>
+            <option>۲۰۷i (پانوراما دنده ای)</option>
+            <option>۲۰۷i دنده‌ای TU۳</option>
+            <option>۲۰۷i پانوراما اتوماتیک</option>
+            <option>G</option>
+            <option>R</option>
+            <option>R پلاس</option>
+            <option>S</option>
+            <option>اتوماتیک R پلاس</option>
+            <option>اتوماتیک S</option>
+            <option>اتوماتیک فول پلاس</option>
+            <option>ساده</option>
+            <option>پلاس</option>
+          </select>
         </div>
 
+        <!-- کیلومتر -->
         <div>
           <label class="block mb-1">کیلومتر</label>
           <input type="number" name="kilometer" class="w-full border rounded px-3 py-2" placeholder="مثلاً 58000" required>
         </div>
 
+        <!-- رنگ -->
         <div>
           <label class="block mb-1">رنگ</label>
-          <input type="text" name="color" class="w-full border rounded px-3 py-2" placeholder="مثلاً سفید">
+          <select name="color" class="w-full border rounded px-3 py-2" required>
+            <option value="">انتخاب کنید</option>
+            <option>سفید</option>
+            <option>مشکی</option>
+            <option>نقره‌ای</option>
+            <option>قرمز</option>
+            <option>خاکستری</option>
+            <option>بژ</option>
+            <option>آبی</option>
+            <option>قهوه‌ای</option>
+            <option>سبز</option>
+            <option>زرد</option>
+            <option>بنفش</option>
+          </select>
         </div>
 
+        <!-- گیربکس -->
         <div>
           <label class="block mb-1">گیربکس</label>
           <select name="gearbox" class="w-full border rounded px-3 py-2" required>
             <option value="">انتخاب کنید</option>
-            <option value="دنده‌ای">دنده‌ای</option>
-            <option value="اتوماتیک">اتوماتیک</option>
+            <option>دنده‌ای</option>
+            <option>اتوماتیک</option>
           </select>
         </div>
 
+        <!-- سوخت -->
         <div>
           <label class="block mb-1">سوخت</label>
           <select name="fuel" class="w-full border rounded px-3 py-2" required>
             <option value="">انتخاب کنید</option>
-            <option value="بنزینی">بنزینی</option>
-            <option value="دوگانه سوز">دوگانه سوز</option>
+            <option>بنزینی</option>
+            <option>دوگانه سوز</option>
           </select>
         </div>
 
+        <!-- وضعیت بدنه -->
         <div>
           <label class="block mb-1">وضعیت بدنه</label>
           <select name="body_status" class="w-full border rounded px-3 py-2" required>
             <option value="">انتخاب کنید</option>
-            <option value="سالم بدون خط و خش">سالم بدون خط و خش</option>
-            <option value="سالم با خط و خش">سالم با خط و خش</option>
-            <option value="یک لکه رنگ">یک لکه رنگ</option>
-            <option value="دو لکه رنگ">دو لکه رنگ</option>
-            <option value="چند لکه رنگ">چند لکه رنگ</option>
-            <option value="تصادفی">تصادفی</option>
+            <option>سالم بدون خط و خش</option>
+            <option>سالم با خط و خش</option>
+            <option>یک لکه رنگ</option>
+            <option>دو لکه رنگ</option>
+            <option>چند لکه رنگ</option>
+            <option>تصادفی</option>
           </select>
-        </div>
-
-        <div>
-          <label class="block mb-1">مدل</label>
-          <input type="text" name="model" class="w-full border rounded px-3 py-2" placeholder="مثلاً S" required>
         </div>
 
         <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">پیش‌بینی قیمت</button>
@@ -82,14 +209,13 @@
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
       resultDiv.textContent = "در حال دریافت پیش‌بینی...";
-      
+
       const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
 
-      // افزودن فیلدهای عددی و بولی پیش‌فرض
       data.zero_km = data.kilometer == 0 ? 1 : 0;
       data.km_per_year = Math.floor(data.kilometer / (1404 - data.year || 1));
-      data.is_automatic = data.gearbox === "اتوماتیک" ? 1 : 0;
+      data.is_automatic = data.gearbox.includes("اتوماتیک") ? 1 : 0;
 
       try {
         const response = await fetch("https://web-production-3e601.up.railway.app/predict", {

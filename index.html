@@ -13,7 +13,6 @@
       <h1 class="text-2xl font-bold mb-6 text-center">پیش‌بینی قیمت خودرو</h1>
 
       <form id="carForm" class="space-y-4">
-        <!-- خودرو -->
         <div>
           <label class="block mb-1">نام خودرو</label>
           <select id="carSelect" name="car_name" class="w-full border rounded px-3 py-2" required>
@@ -31,7 +30,6 @@
           </select>
         </div>
 
-        <!-- مدل -->
         <div>
           <label class="block mb-1">مدل</label>
           <select id="modelSelect" name="model" class="w-full border rounded px-3 py-2" required>
@@ -39,13 +37,11 @@
           </select>
         </div>
 
-        <!-- کیلومتر -->
         <div>
           <label class="block mb-1">کیلومتر</label>
           <input type="number" name="kilometer" class="w-full border rounded px-3 py-2" placeholder="مثلاً 58000" required>
         </div>
 
-        <!-- رنگ -->
         <div>
           <label class="block mb-1">رنگ</label>
           <select name="color" class="w-full border rounded px-3 py-2" required>
@@ -73,7 +69,6 @@
   </div>
 
   <script>
-    // داده‌های مدل‌ها بر اساس خودرو
     const modelsByCar = {
       "اطلس": ["E", "G", "S"],
       "تارا": ["G", "v۱ پلاس", "اتوماتیک", "دنده ای", "وی ۴ ال ایکس"],
@@ -127,10 +122,13 @@
         const result = await response.json();
 
         if(result.success){
-          resultDiv.innerHTML = `💰 قیمت پیش‌بینی شده: ${result.formatted_price} تومان<br>
-          📊 دقت مدل: R² ~ ${result.metrics?.test?.r2_score?.toFixed(2) || "N/A"}, MAE ~ ${result.metrics?.test?.mae?.toFixed(0) || "N/A"} تومان`;
+          // چک کنیم metrics وجود دارد یا نه
+          const r2 = result.metrics?.test?.r2_score ?? "N/A";
+          const mae = result.metrics?.test?.mae ?? "N/A";
 
-          // رسم نمودار
+          resultDiv.innerHTML = `💰 قیمت پیش‌بینی شده: ${result.formatted_price} تومان<br>
+          📊 دقت مدل: R² ~ ${r2}, MAE ~ ${mae} تومان`;
+
           const chartData = {
             labels: ["حداقل","پیش‌بینی","حداکثر"],
             datasets: [{
@@ -142,7 +140,7 @@
           if(chart) chart.destroy();
           chart = new Chart(ctx, { type: "bar", data: chartData, options: { responsive: true }});
         } else {
-          resultDiv.textContent = `❌ خطا: ${result.errors?.join(', ') || result.message}`;
+          resultDiv.textContent = `❌ خطا: ${result.errors?.join(', ') || result.message || "خطای ناشناخته"}`;
         }
 
       } catch (err) {

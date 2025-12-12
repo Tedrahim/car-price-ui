@@ -8,42 +8,48 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body class="bg-gray-100 font-sans">
-
   <div class="min-h-screen flex flex-col items-center justify-center p-4">
-    <div class="bg-white shadow-xl rounded-2xl p-8 w-full max-w-xl">
-      <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">🚗 پیش‌بینی قیمت خودرو</h1>
+    <div class="bg-white shadow-lg rounded-xl p-6 w-full max-w-lg">
+      <h1 class="text-2xl font-bold mb-6 text-center">پیش‌بینی قیمت خودرو</h1>
 
       <form id="carForm" class="space-y-4">
         <!-- خودرو -->
         <div>
-          <label class="block mb-1 font-semibold">نام خودرو</label>
-          <select name="car_name" id="car_name" class="w-full border rounded px-3 py-2" required></select>
+          <label class="block mb-1">نام خودرو</label>
+          <select id="carSelect" name="car_name" class="w-full border rounded px-3 py-2" required>
+            <option value="">انتخاب کنید</option>
+            <option value="اطلس">اطلس</option>
+            <option value="تارا">تارا</option>
+            <option value="دنا">دنا</option>
+            <option value="رانا">رانا</option>
+            <option value="ساینا">ساینا</option>
+            <option value="سمند">سمند</option>
+            <option value="شاهین">شاهین</option>
+            <option value="پراید">پراید</option>
+            <option value="پژو">پژو</option>
+            <option value="کوییک">کوییک</option>
+          </select>
         </div>
 
         <!-- مدل -->
         <div>
-          <label class="block mb-1 font-semibold">مدل</label>
-          <select name="model" id="model" class="w-full border rounded px-3 py-2" required>
+          <label class="block mb-1">مدل</label>
+          <select id="modelSelect" name="model" class="w-full border rounded px-3 py-2" required>
             <option value="">ابتدا خودرو را انتخاب کنید</option>
           </select>
         </div>
 
-        <!-- سال ساخت -->
-        <div>
-          <label class="block mb-1 font-semibold">سال ساخت</label>
-          <input type="number" name="year" class="w-full border rounded px-3 py-2" placeholder="مثلاً 1401" required>
-        </div>
-
         <!-- کیلومتر -->
         <div>
-          <label class="block mb-1 font-semibold">کیلومتر</label>
+          <label class="block mb-1">کیلومتر</label>
           <input type="number" name="kilometer" class="w-full border rounded px-3 py-2" placeholder="مثلاً 58000" required>
         </div>
 
         <!-- رنگ -->
         <div>
-          <label class="block mb-1 font-semibold">رنگ</label>
-          <select name="color" class="w-full border rounded px-3 py-2">
+          <label class="block mb-1">رنگ</label>
+          <select name="color" class="w-full border rounded px-3 py-2" required>
+            <option value="">انتخاب کنید</option>
             <option value="سفید">سفید</option>
             <option value="مشکی">مشکی</option>
             <option value="نقره‌ای">نقره‌ای</option>
@@ -58,88 +64,37 @@
           </select>
         </div>
 
-        <!-- گیربکس -->
-        <div>
-          <label class="block mb-1 font-semibold">گیربکس</label>
-          <select name="gearbox" class="w-full border rounded px-3 py-2" required>
-            <option value="">انتخاب کنید</option>
-            <option value="دنده‌ای">دنده‌ای</option>
-            <option value="اتوماتیک">اتوماتیک</option>
-          </select>
-        </div>
-
-        <!-- سوخت -->
-        <div>
-          <label class="block mb-1 font-semibold">سوخت</label>
-          <select name="fuel" class="w-full border rounded px-3 py-2" required>
-            <option value="">انتخاب کنید</option>
-            <option value="بنزینی">بنزینی</option>
-            <option value="دوگانه سوز">دوگانه سوز</option>
-          </select>
-        </div>
-
-        <!-- وضعیت بدنه -->
-        <div>
-          <label class="block mb-1 font-semibold">وضعیت بدنه</label>
-          <select name="body_status" class="w-full border rounded px-3 py-2" required>
-            <option value="">انتخاب کنید</option>
-            <option value="سالم بدون خط و خش">سالم بدون خط و خش</option>
-            <option value="سالم با خط و خش">سالم با خط و خش</option>
-            <option value="یک لکه رنگ">یک لکه رنگ</option>
-            <option value="دو لکه رنگ">دو لکه رنگ</option>
-            <option value="چند لکه رنگ">چند لکه رنگ</option>
-            <option value="تصادفی">تصادفی</option>
-          </select>
-        </div>
-
         <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">پیش‌بینی قیمت</button>
       </form>
 
       <div id="result" class="mt-6 text-center text-lg font-semibold"></div>
-
-      <!-- اطلاعات دقت مدل -->
-      <div id="model-info" class="mt-4 text-center text-gray-700"></div>
-
-      <!-- نمودار -->
-      <canvas id="priceChart" class="mt-6"></canvas>
+      <canvas id="chart" class="mt-4"></canvas>
     </div>
   </div>
 
   <script>
-    // خودروها و مدل‌ها
-    const cars = ["اطلس","تارا","دنا","رانا","ساینا","سمند","شاهین","پراید","پژو","کوییک"];
-    const models = {
-      "اطلس":["E","G","S"],
-      "تارا":["G","v۱ پلاس","اتوماتیک","دنده ای","وی ۴ ال ایکس"],
-      "دنا":["G","دنا پلاس","دنا پلاس توربو","دنا پلاس تیپ ۱ توربو","دنا پلاس تیپ ۱ دنده‌ای","دنا پلاس تیپ ۲ توربو","دنا پلاس تیپ ۲ دنده‌ای","دنا پلاس ۵ دنده توربو","دنا پلاس ۶ دنده توربو","معمولی تیپ ۱","معمولی تیپ ۲"],
-      "رانا":["EL","LX","پلاس","پلاس پانوراما"],
-      "ساینا":["G","GX","دنده ای","ساینا اتوماتیک EX","ساینا اتوماتیک S","ساینا دنده ای EX","ساینا دنده ای G","ساینا دنده ای S","ساینا دنده ای SX"],
-      "سمند":["EL (بنزینی)","EL (دوگانه سوز)","LX (ساده)","LX EF۷ (بنزینی)","LX EF۷ (دوگانه سوز)","SE","X۷ (بنزینی)","X۷ (دوگانه سوز)","سریر","سورن (ELX توربو)","سورن (ELX)","سورن (ساده)","سورن (پلاس)","معمولی"],
-      "شاهین":["G","GL","پلاس"],
-      "پراید":["سفری","صبا (صندوقدار) (دوگانه سوز)","صبا (صندوقدار) بنزینی","نسیم (هاچ بک)","وانت (۱۵۱) (بنزینی)","وانت (۱۵۱) (پلاس)","وانت ۱۵۱ (دوگانه سوز)","۱۱۱","۱۱۱ se","۱۱۱ sl","۱۱۱ sx","۱۳۱ (بنزینی)","۱۳۱ (دوگانه سوز)","۱۳۱ se","۱۳۱ sl","۱۳۱ sx","۱۳۱ tl","۱۳۲ (بنزینی)","۱۳۲ (دوگانه سوز)","۱۳۲ se","۱۴۱ (بنزینی)","۱۴۱ (دوگانه سوز)","۱۴۱ i","۱۴۱ le","۱۴۱ sx"],
-      "پژو":["۲۰۶ (تیپ۱)","۲۰۶ (تیپ۲)","۲۰۶ (تیپ۳)","۲۰۶ (تیپ۳) پانوراما","۲۰۶ (تیپ۴)","۲۰۶ (تیپ۵)","۲۰۶ (تیپ۶)","۲۰۷i (MC)","۲۰۷i (اتوماتیک)","۲۰۷i (دنده ای)","۲۰۷i (پانوراما اتوماتیک TU۵)","۲۰۷i (پانوراما دنده ای)","۲۰۷i دنده‌ای TU۳","۲۰۷i پانوراما اتوماتیک"],
-      "کوییک":["G","R","R پلاس","S","اتوماتیک R پلاس","اتوماتیک S","اتوماتیک فول پلاس","ساده","پلاس"]
+    // داده‌های مدل‌ها بر اساس خودرو
+    const modelsByCar = {
+      "اطلس": ["E", "G", "S"],
+      "تارا": ["G", "v۱ پلاس", "اتوماتیک", "دنده ای", "وی ۴ ال ایکس"],
+      "دنا": ["G", "دنا پلاس", "دنا پلاس توربو", "دنا پلاس تیپ ۱ توربو", "دنا پلاس تیپ ۱ دنده‌ای", "دنا پلاس تیپ ۲ توربو", "دنا پلاس تیپ ۲ دنده‌ای", "دنا پلاس ۵ دنده توربو", "دنا پلاس ۶ دنده توربو"],
+      "رانا": ["EL", "LX", "پلاس", "پلاس پانوراما"],
+      "ساینا": ["G", "GX", "دنده ای", "ساینا اتوماتیک EX", "ساینا اتوماتیک S", "ساینا دنده ای EX", "ساینا دنده ای G", "ساینا دنده ای S", "ساینا دنده ای SX"],
+      "سمند": ["EL (بنزینی)", "EL (دوگانه سوز)", "LX (ساده)", "LX EF۷ (بنزینی)", "LX EF۷ (دوگانه سوز)", "SE", "X۷ (بنزینی)", "X۷ (دوگانه سوز)", "سریر", "سورن (ELX توربو)", "سورن (ELX)", "سورن (ساده)", "سورن (پلاس)", "معمولی"],
+      "شاهین": ["G", "GL", "پلاس"],
+      "پراید": ["سفری", "صبا (صندوقدار) (دوگانه سوز)", "صبا (صندوقدار) بنزینی", "نسیم (هاچ بک)", "وانت (۱۵۱) (بنزینی)", "وانت (۱۵۱) (پلاس)", "وانت ۱۵۱ (دوگانه سوز)", "۱۱۱", "۱۱۱ se", "۱۱۱ sl", "۱۱۱ sx", "۱۳۱ (بنزینی)", "۱۳۱ (دوگانه سوز)", "۱۳۱ se", "۱۳۱ sl", "۱۳۱ sx", "۱۳۱ tl", "۱۳۲ (بنزینی)", "۱۳۲ (دوگانه سوز)", "۱۳۲ se", "۱۴۱ (بنزینی)", "۱۴۱ (دوگانه سوز)", "۱۴۱ i", "۱۴۱ le", "۱۴۱ sx"],
+      "پژو": ["۲۰۶ (تیپ۱)","۲۰۶ (تیپ۲)","۲۰۶ (تیپ۳)","۲۰۶ (تیپ۳) پانوراما","۲۰۶ (تیپ۴)","۲۰۶ (تیپ۵)","۲۰۶ (تیپ۶)","۲۰۷i (MC)","۲۰۷i (اتوماتیک)","۲۰۷i (دنده ای)","۲۰۷i (پانوراما اتوماتیک TU۵)","۲۰۷i (پانوراما دنده ای)","۲۰۷i دنده‌ای TU۳","۲۰۷i پانوراما اتوماتیک"],
+      "کوییک": ["G","R","R پلاس","S","اتوماتیک R پلاس","اتوماتیک S","اتوماتیک فول پلاس","ساده","پلاس"]
     };
 
-    const carSelect = document.getElementById("car_name");
-    const modelSelect = document.getElementById("model");
-    const resultDiv = document.getElementById("result");
-    const modelInfoDiv = document.getElementById("model-info");
+    const carSelect = document.getElementById("carSelect");
+    const modelSelect = document.getElementById("modelSelect");
 
-    // پر کردن خودروها
-    cars.forEach(car => {
-      const opt = document.createElement("option");
-      opt.value = car;
-      opt.textContent = car;
-      carSelect.appendChild(opt);
-    });
-
-    // تغییر مدل‌ها با انتخاب خودرو
     carSelect.addEventListener("change", () => {
       const car = carSelect.value;
-      modelSelect.innerHTML = '<option value="">انتخاب مدل</option>';
-      if(models[car]){
-        models[car].forEach(m => {
+      modelSelect.innerHTML = "<option value=''>انتخاب کنید</option>";
+      if(modelsByCar[car]){
+        modelsByCar[car].forEach(m => {
           const opt = document.createElement("option");
           opt.value = m;
           opt.textContent = m;
@@ -148,53 +103,22 @@
       }
     });
 
-    // نمودار
-    let chart = null;
-    function renderChart(min, max, predicted) {
-      const ctx = document.getElementById('priceChart').getContext('2d');
-      if(chart) chart.destroy();
-      chart = new Chart(ctx, {
-        type: 'bar',
-        data: {
-          labels: ['حداقل', 'حداکثر', 'پیش‌بینی'],
-          datasets: [{
-            label: 'قیمت (تومان)',
-            data: [min, max, predicted],
-            backgroundColor: ['#f87171','#34d399','#60a5fa']
-          }]
-        },
-        options: {
-          responsive: true,
-          plugins: {
-            legend: { display: false },
-            title: {
-              display: true,
-              text: 'محدوده و پیش‌بینی قیمت خودرو'
-            }
-          },
-          scales: {
-            y: { beginAtZero: true }
-          }
-        }
-      });
-    }
+    const form = document.getElementById("carForm");
+    const resultDiv = document.getElementById("result");
+    const ctx = document.getElementById("chart").getContext("2d");
+    let chart;
 
-    // ارسال فرم
-    document.getElementById('carForm').addEventListener('submit', async (e) => {
+    form.addEventListener("submit", async (e) => {
       e.preventDefault();
       resultDiv.textContent = "در حال دریافت پیش‌بینی...";
-      modelInfoDiv.textContent = "";
-
-      const formData = new FormData(e.target);
+      
+      const formData = new FormData(form);
       const data = Object.fromEntries(formData.entries());
-      data.kilometer = parseInt(data.kilometer);
-      data.year = parseInt(data.year);
-      data.zero_km = data.kilometer === 0 ? 1 : 0;
+      data.zero_km = data.kilometer == 0 ? 1 : 0;
       data.km_per_year = Math.floor(data.kilometer / (1404 - data.year || 1));
-      data.is_automatic = data.gearbox.includes("اتوماتیک") ? 1 : 0;
+      data.is_automatic = ["اتوماتیک","اتوماتیک R پلاس","اتوماتیک S","اتوماتیک فول پلاس"].includes(data.model) ? 1 : 0;
 
       try {
-        // پیش‌بینی قیمت
         const response = await fetch("https://web-production-3e601.up.railway.app/predict", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -203,23 +127,29 @@
         const result = await response.json();
 
         if(result.success){
-          resultDiv.textContent = `💰 قیمت پیش‌بینی شده: ${result.formatted_price} تومان`;
-          renderChart(result.confidence.min, result.confidence.max, result.predicted_price);
+          resultDiv.innerHTML = `💰 قیمت پیش‌بینی شده: ${result.formatted_price} تومان<br>
+          📊 دقت مدل: R² ~ ${result.metrics?.test?.r2_score?.toFixed(2) || "N/A"}, MAE ~ ${result.metrics?.test?.mae?.toFixed(0) || "N/A"} تومان`;
+
+          // رسم نمودار
+          const chartData = {
+            labels: ["حداقل","پیش‌بینی","حداکثر"],
+            datasets: [{
+              label: "قیمت (تومان)",
+              data: [result.confidence.min, result.predicted_price, result.confidence.max],
+              backgroundColor: ["#f87171","#60a5fa","#34d399"]
+            }]
+          };
+          if(chart) chart.destroy();
+          chart = new Chart(ctx, { type: "bar", data: chartData, options: { responsive: true }});
         } else {
-          resultDiv.textContent = `❌ خطا: ${result.message || 'خطای ناشناخته'}`;
+          resultDiv.textContent = `❌ خطا: ${result.errors?.join(', ') || result.message}`;
         }
 
-        // دریافت اطلاعات مدل
-        const infoResp = await fetch("https://web-production-3e601.up.railway.app/model_info");
-        const info = await infoResp.json();
-        modelInfoDiv.textContent = `📊 دقت مدل: ${info.r2_score ?? 'نامعلوم'}, میانگین خطا: ${info.mae ?? 'نامعلوم'}`;
-
-      } catch(err){
+      } catch (err) {
         resultDiv.textContent = `❌ خطا در ارتباط با سرور`;
         console.error(err);
       }
     });
-
   </script>
 </body>
 </html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fa">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>پیش‌بینی قیمت خودرو</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 font-sans">
+  <div class="min-h-screen flex flex-col items-center justify-center p-4">
+    <div class="bg-white shadow-lg rounded-xl p-6 w-full max-w-lg">
+      <h1 class="text-2xl font-bold mb-6 text-center">پیش‌بینی قیمت خودرو</h1>
+      
+      <form id="carForm" class="space-y-4">
+        <div>
+          <label class="block mb-1">نام خودرو</label>
+          <input type="text" name="car_name" class="w-full border rounded px-3 py-2" placeholder="مثلاً کوییک" required>
+        </div>
+
+        <div>
+          <label class="block mb-1">سال ساخت</label>
+          <input type="number" name="year" class="w-full border rounded px-3 py-2" placeholder="مثلاً 1401" required>
+        </div>
+
+        <div>
+          <label class="block mb-1">کیلومتر</label>
+          <input type="number" name="kilometer" class="w-full border rounded px-3 py-2" placeholder="مثلاً 58000" required>
+        </div>
+
+        <div>
+          <label class="block mb-1">رنگ</label>
+          <input type="text" name="color" class="w-full border rounded px-3 py-2" placeholder="مثلاً سفید">
+        </div>
+
+        <div>
+          <label class="block mb-1">گیربکس</label>
+          <select name="gearbox" class="w-full border rounded px-3 py-2" required>
+            <option value="">انتخاب کنید</option>
+            <option value="دنده‌ای">دنده‌ای</option>
+            <option value="اتوماتیک">اتوماتیک</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block mb-1">سوخت</label>
+          <select name="fuel" class="w-full border rounded px-3 py-2" required>
+            <option value="">انتخاب کنید</option>
+            <option value="بنزینی">بنزینی</option>
+            <option value="دوگانه سوز">دوگانه سوز</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block mb-1">وضعیت بدنه</label>
+          <select name="body_status" class="w-full border rounded px-3 py-2" required>
+            <option value="">انتخاب کنید</option>
+            <option value="سالم بدون خط و خش">سالم بدون خط و خش</option>
+            <option value="سالم با خط و خش">سالم با خط و خش</option>
+            <option value="یک لکه رنگ">یک لکه رنگ</option>
+            <option value="دو لکه رنگ">دو لکه رنگ</option>
+            <option value="چند لکه رنگ">چند لکه رنگ</option>
+            <option value="تصادفی">تصادفی</option>
+          </select>
+        </div>
+
+        <div>
+          <label class="block mb-1">مدل</label>
+          <input type="text" name="model" class="w-full border rounded px-3 py-2" placeholder="مثلاً S" required>
+        </div>
+
+        <button type="submit" class="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition">پیش‌بینی قیمت</button>
+      </form>
+
+      <div id="result" class="mt-6 text-center text-lg font-semibold"></div>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('carForm');
+    const resultDiv = document.getElementById('result');
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      resultDiv.textContent = "در حال دریافت پیش‌بینی...";
+      
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData.entries());
+
+      // افزودن فیلدهای عددی و بولی پیش‌فرض
+      data.zero_km = data.kilometer == 0 ? 1 : 0;
+      data.km_per_year = Math.floor(data.kilometer / (1404 - data.year || 1));
+      data.is_automatic = data.gearbox === "اتوماتیک" ? 1 : 0;
+
+      try {
+        const response = await fetch("https://web-production-3e601.up.railway.app/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data)
+        });
+
+        const result = await response.json();
+        if(result.success){
+          resultDiv.textContent = `💰 قیمت پیش‌بینی شده: ${result.formatted_price} تومان`;
+        } else {
+          resultDiv.textContent = `❌ خطا: ${result.errors?.join(', ') || result.message}`;
+        }
+      } catch (err) {
+        resultDiv.textContent = `❌ خطا در ارتباط با سرور`;
+        console.error(err);
+      }
+    });
+  </script>
+</body>
+</html>
